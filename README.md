@@ -1,12 +1,7 @@
 # Queryko
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/queryko`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem provides additional functionality on your query objects. It will filter and paginate your query by supplying an option
 
 ## Installation
-
-Add this line to your application's Gemfile:
 
 ```ruby
 gem 'queryko'
@@ -21,23 +16,36 @@ Or install it yourself as:
     $ gem install queryko
 
 ## Usage
+### Create a query object
+``` ruby
+class ProductsQuery < Queryko::QueryObject
+  add_range_attributes :created_at, :price
+  add_searchables :name, :vendor
 
-TODO: Write usage instructions here
+  def initialize params={}, relation = Product.all
+    super(params, relation)
+  end
+end
+```
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+### Using your query object
+Filter your query by appending `_min` or `_max` on your defined attributes. You can also filter searc3h by attribute.
+As long as you defined it in your query object definition.
+``` ruby
+products = ProductsQuery.new(price_min: 100, price_max: 150, name: 'Milk').call
+```
+### Other available options
+| Option   | description                  |
+|:---------|:-----------------------------|
+| since_id | retrieves records after `id` |
+| page     | page to retrieve             |
+| limit    | number of records per page   |
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/queryko. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/neume/queryko. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Queryko project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/queryko/blob/master/CODE_OF_CONDUCT.md).
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).

@@ -1,9 +1,9 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe Searchables do
+RSpec.describe Queryko::Searchables do
   let(:sample_class) do
     Class.new do
-      include Searchables
+      include Queryko::Searchables
       attr_accessor :params, :relation
       def initialize(params = {}, relation)
         @relation = relation
@@ -13,7 +13,7 @@ RSpec.describe Searchables do
         filter_by_searchables
         relation
       end
-      add_searchables :title
+      add_searchables :name
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Searchables do
       let(:query_subclass) { sample_subclass }
 
       it "has searchables name" do
-        expect(query_subclass.searchables.first).to eq(:title)
+        expect(query_subclass.searchables.first).to eq(:name)
         expect(query_subclass.searchables.last).to eq(:name)
       end
     end
@@ -36,8 +36,8 @@ RSpec.describe Searchables do
       context '#searchables' do
         let(:query_instance) { sample_class.new nil, nil }
 
-        it "has searchables :title" do
-          expect(query_instance.searchables.first).to eq(:title)
+        it "has searchables :name" do
+          expect(query_instance.searchables.first).to eq(:name)
         end
 
         it "doesn't override searchables" do
@@ -47,9 +47,11 @@ RSpec.describe Searchables do
 
       context "#filter_searchable" do
         it "filters attributes" do
-          products = create_list(:product, 5, title: "Milk")
-          create(:product)
-          query = sample_class.new({ title: 'Milk' }, Product.all)
+          5.times do |i|
+            Product.create(name: "Sample")
+          end
+          Product.create(name: 'Other')
+          query = sample_class.new({ name: 'Sample' }, Product.all)
 
           expect(query.call.count).to eq(5)
         end
@@ -60,7 +62,7 @@ RSpec.describe Searchables do
       context "with attributeless class" do
         let(:attributeless_class) {
           Class.new do
-            include Searchables
+            include Queryko::Searchables
           end
         }
         it "is working well" do

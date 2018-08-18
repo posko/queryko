@@ -1,9 +1,9 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe AfterAttributes do
+RSpec.describe Queryko::AfterAttributes do
   let(:query_object_class) {
     Class.new do
-      include AfterAttributes
+      include Queryko::AfterAttributes
       attr_accessor :params, :relation
       def initialize(params = {}, relation)
         @relation = relation
@@ -44,7 +44,10 @@ RSpec.describe AfterAttributes do
 
       context '#filter_after_attributes' do
         it "filtes attributes" do
-          products = create_list(:product, 5)
+          products =  []
+          5.times do |i|
+            Product.create(name: "Sample #{i}")
+          end
           query = query_object_class.new({ after_id: products[3] }, Product.all)
           expect(query.call.count).to eq(1)
         end
@@ -56,7 +59,7 @@ RSpec.describe AfterAttributes do
     context "with attributeless class" do
       let(:attributeless_class) {
         Class.new do
-          include AfterAttributes
+          include Queryko::AfterAttributes
         end
       }
       it "is working well" do

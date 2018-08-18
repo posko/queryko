@@ -1,9 +1,9 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe RangeAttributes do
+RSpec.describe Queryko::RangeAttributes do
   let(:query_object_class) do
     Class.new do
-      include RangeAttributes
+      include Queryko::RangeAttributes
       attr_accessor :params, :relation
       def initialize(params = {}, relation)
         @relation = relation
@@ -43,14 +43,21 @@ RSpec.describe RangeAttributes do
       end
 
       context '#filter_range_attributes' do
+        let(:products) do
+          products = []
+          5.times do |i|
+            products << Product.create(name: "Sample #{i}")
+          end
+          products
+        end
+
         it "filters attributes" do
-          products = create_list(:product, 5)
           query = query_object_class.new({ id_min: products[3] }, Product.all)
           expect(query.call.count).to eq(2)
         end
+
         context "using min and max" do
           it "filters attributes" do
-            products = create_list(:product, 5)
             query = query_object_class.new({ id_max: products[1]}, Product.all)
             expect(query.call.count).to eq(2)
           end
@@ -62,7 +69,7 @@ RSpec.describe RangeAttributes do
       context "with attributeless class" do
         let(:attributeless_class) {
           Class.new do
-            include RangeAttributes
+            include Queryko::RangeAttributes
           end
         }
         it "is working well" do

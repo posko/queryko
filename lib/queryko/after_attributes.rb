@@ -1,4 +1,5 @@
-module AfterAttributes
+module Queryko
+  module AfterAttributes
   def self.included(base)
     base.extend(ClassMethods)
     base.class_eval do
@@ -6,7 +7,7 @@ module AfterAttributes
       self.after_attributes = []
 
       private
-      
+
       def filter_after_attributes
         self.after_attributes.each do |attribute|
           if params["after_#{attribute}".to_sym].present?
@@ -26,4 +27,5 @@ module AfterAttributes
       self.after_attributes += args
     end
   end
+end
 end

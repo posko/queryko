@@ -1,20 +1,24 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe QueryObject do
-  let(:account) { create(:account) }
-  let(:products) { create_list(:product, 3, account: account) }
+RSpec.describe Queryko::QueryObject do
+  let(:products) do
+    products =  []
+    3.times do |i|
+      products << Product.create(name: "Sample#{i}")
+    end
+    products
+  end
   before { products }
   describe 'anonymous class' do
     let(:products_query_class) {
-      Class.new(QueryObject) do
-        add_range_attributes :created_at
+      Class.new(Queryko::QueryObject) do
         add_range_attributes :id
-        add_searchables :title
-        add_searchables :id
+        add_range_attributes :created_at
+        add_searchables :name
       end
     }
 
-    let(:query) { products_query_class.new params, account.products }
+    let(:query) { products_query_class.new params, Product.all }
     describe '#call' do
       let(:params) do
         {
@@ -67,50 +71,35 @@ RSpec.describe QueryObject do
       end
     end
 
-    context "using attribute_min" do
+    context "using range_attribute" do
+      let(:product0) { Product.create(name: 'Secret Product') }
+      let(:product1) { Product.create(name: 'Milk') }
+      let(:product2) { Product.create(name: 'Bread') }
+      before do
+        product0
+        product1
+        product2
+      end
       it "returns list of products" do
-        # TODO: Improve this test
-        # there are 3 default products
-        Timecop.freeze(Time.current + 1.day)
-        product1 = create(:product, account: account)
-        Timecop.return
-        Timecop.freeze(Time.current + 2.day)
-        product2 = create(:product, account: account)
-        Timecop.return
-        q = products_query_class.new({ created_at_min: product1.created_at }, account.products)
+        q = products_query_class.new({ id_min: product1.id }, Product.all)
         expect(q.call.count).to eq(2)
       end
 
       it "returns list of products" do
-        # TODO: Improve this test
-        # there are 3 default products
-        # create products before the the current date
-        Timecop.freeze(Time.current - 1.day)
-        product1 = create(:product, account: account)
-        Timecop.return
-        Timecop.freeze(Time.current - 2.day)
-        product2 = create(:product, account: account)
-        Timecop.return
-        q = products_query_class.new({ created_at_max: product1.created_at + 1 }, account.products)
-        expect(q.call.count).to eq(2)
+        q = products_query_class.new({ id_max: product1.id + 1 }, Product.all)
+        expect(q.call.count).to eq(6)
       end
     end
 
     describe "#add_range_attributes" do
-      it "adds created_at" do
+      it "adds id" do
         expect(products_query_class.range_attributes.count).to eq(2)
       end
     end
 
     describe "#add_searchables" do
-      it "adds created_at" do
-        expect(products_query_class.searchables.count).to eq(2)
-      end
-    end
-
-    describe "#add_searchables" do
-      let(:params) { { id: products[0]}}
-      it "adds created_at" do
+      let(:params) { { name: products[0].name}}
+      it "adds id" do
         expect(query.call.count).to eq(1)
       end
     end

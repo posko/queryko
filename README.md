@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/queryko.svg)](https://badge.fury.io/rb/queryko)
 # Queryko
 This gem provides additional functionality on your query objects. It will filter and paginate your query by supplying an option
 

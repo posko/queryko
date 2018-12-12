@@ -8,7 +8,10 @@ RSpec.describe Queryko::QueryObject do
     end
     products
   end
+  let(:params) { {} }
+
   before { products }
+
   describe 'anonymous class' do
     let(:products_query_class) {
       Class.new(Queryko::QueryObject) do
@@ -17,8 +20,8 @@ RSpec.describe Queryko::QueryObject do
         add_searchables :name
       end
     }
-
     let(:query) { products_query_class.new params, Product.all }
+
     describe '#call' do
       let(:params) do
         {
@@ -32,6 +35,9 @@ RSpec.describe Queryko::QueryObject do
       end
     end
 
+    describe '#count' do
+      it { expect(query.count).to eq(3) }
+    end
     context 'using ids' do
       let(:params) { { ids: [products[0].id, products[1].id] } }
 

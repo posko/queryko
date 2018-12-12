@@ -21,6 +21,11 @@ module Queryko
       return relation
     end
 
+
+    def count
+      call.count
+    end
+
     private
 
     attr_reader :params, :relation

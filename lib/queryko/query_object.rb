@@ -4,26 +4,41 @@ require "queryko/searchables"
 require "queryko/after_attributes"
 module Queryko
   class QueryObject
+    attr_reader :countable_resource
     include Queryko::RangeAttributes
     include Queryko::Searchables
     # include AfterAttributes
 
     def initialize(params = {}, rel)
-      @relation = rel
+      @relation = @original_relation = rel
       @params = params
     end
 
     def call
+      perform
+      self.relation = paginate if config[:paginate]
+      return relation
+    end
+
+    def perform
+      return if @performed
+
+      @performed = true
       pre_filter
       filter
       filter_by_range_attributes
       filter_by_searchables
-      return relation
+      @countable_resource = relation
     end
 
 
+    def total_count
+      perform
+      countable_resource.count
+    end
+
     def count
-      call.count
+      call.to_a.count
     end
 
     private
@@ -40,7 +55,6 @@ module Queryko
     end
 
     def pre_filter
-      self.relation = paginate if config[:paginate]
       self.relation = by_ids if config[:ids] && params[:ids]
       self.relation = since_id if config[:since_id] && params[:since_id]
     end
@@ -49,7 +63,13 @@ module Queryko
     end
 
     def paginate
-      relation.page(page).per(limit)
+      if defined?(WillPaginate)
+        relation.paginate(page: page, per_page: limit)
+      elsif defined?(Kaminari)
+        relation.page(page).per(limit)
+      else
+        raise 'Only kaminari and wil_paginate are supported'
+      end
     end
 
     def page

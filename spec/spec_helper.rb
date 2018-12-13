@@ -19,4 +19,10 @@ RSpec.configure do |config|
 end
 
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: ':memory:')
-ActiveRecord::Migrator.migrate(File.expand_path('../fixtures/app/migrations', __FILE__))
+migration_files_path = File.expand_path('../fixtures/app/migrations', __FILE__)
+
+if ActiveRecord.gem_version >= Gem::Version.new('5.2.2')
+  ActiveRecord::MigrationContext.new(migration_files_path).migrate
+else
+  ActiveRecord::Migrator.migrate(migration_files_path)
+end

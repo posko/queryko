@@ -36,6 +36,21 @@ As long as you defined it in your query object definition.
 ``` ruby
 products = ProductsQuery.new(price_min: 100, price_max: 150, name: 'Milk').call
 ```
+
+#### Object Methods
+- **count** - Returns the filtered count including pagination filter or the size of return object.
+- **total_count** - Returns the overall count of the filtered total records.
+
+Example:
+
+```
+Products.count        # 21 rows
+query = ProductsQuery.new(page: 5, limit: 5)
+
+query.count           # 1
+query.total_count     # 21
+```
+
 ### Other available options
 | Option   | description                  |
 |:---------|:-----------------------------|

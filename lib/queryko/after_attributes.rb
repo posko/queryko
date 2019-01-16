@@ -16,7 +16,7 @@ module Queryko
         end
       end
       def filter_after attribute
-        self.relation = relation.where("#{attribute} > ?", params["after_#{attribute}".to_sym])
+        self.relation = relation.where("'#{defined_table_name}'.'#{attribute}' > ?", params["after_#{attribute}".to_sym])
       end
     end
   end

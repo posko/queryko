@@ -14,6 +14,10 @@ RSpec.describe Queryko::RangeAttributes do
         relation
       end
       add_range_attributes :id
+
+      def defined_table_name
+        'products'
+      end
     end
   end
 

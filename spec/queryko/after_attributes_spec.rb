@@ -13,6 +13,10 @@ RSpec.describe Queryko::AfterAttributes do
         filter_after_attributes
       end
       add_after_attributes :id
+
+      def defined_table_name
+        'products'
+      end
     end
   }
 
@@ -46,9 +50,9 @@ RSpec.describe Queryko::AfterAttributes do
         it "filtes attributes" do
           products =  []
           5.times do |i|
-            Product.create(name: "Sample #{i}")
+            products << Product.create(name: "Sample #{i}")
           end
-          query = query_object_class.new({ after_id: products[3] }, Product.all)
+          query = query_object_class.new({ after_id: products[1].id }, Product.all)
           expect(query.call.count).to eq(1)
         end
       end

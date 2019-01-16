@@ -3,6 +3,7 @@ require "queryko/range_attributes"
 require "queryko/searchables"
 require "queryko/after_attributes"
 require "queryko/naming"
+
 module Queryko
   class QueryObject
     attr_reader :countable_resource
@@ -92,7 +93,7 @@ module Queryko
     end
 
     def since_id
-      relation.where("id > ?", params[:since_id])
+      relation.where("'#{defined_table_name}'.'id' > ?", params[:since_id])
     end
 
   end

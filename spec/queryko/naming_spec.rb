@@ -24,7 +24,7 @@ RSpec.describe Queryko::Naming do
       let(:query_instance) { query_object_class.new }
       context "#after_attributes" do
         it "has table_name" do
-          expect(query_instance.table_name).to eq("classes")
+          expect(query_instance.table_name).to eq("class")
         end
 
         it "doesn't override table_name" do

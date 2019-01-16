@@ -1,11 +1,15 @@
 [![Gem Version](https://badge.fury.io/rb/queryko.svg)](https://badge.fury.io/rb/queryko)
 # Queryko
-This gem provides additional functionality on your query objects. It will filter and paginate your query by supplying an option
+This gem provides additional functionality on your query objects. It will filter and paginate your query by supplying arguments directly from controller params
 
 ## Installation
-For now, it only works with kaminari
 ```ruby
+# Pagination
 gem 'kaminari'
+#or
+gem 'will_paginate'
+
+# Query Object
 gem 'queryko'
 ```
 
@@ -24,6 +28,8 @@ class ProductsQuery < Queryko::QueryObject
   add_range_attributes :created_at, :price
   add_searchables :name, :vendor
 
+  table_name 'my_products' # optional
+
   def initialize params={}, relation = Product.all
     super(params, relation)
   end
@@ -34,7 +40,13 @@ end
 Filter your query by appending `_min` or `_max` on your defined attributes. You can also filter searc3h by attribute.
 As long as you defined it in your query object definition.
 ``` ruby
+# Collection
 products = ProductsQuery.new(price_min: 100, price_max: 150, name: 'Milk').call
+products = ProductsQuery.new(since_id: 26).call
+
+# Count
+products = ProductsQuery.new(created_at_min: 'Jan 1, 2019').count
+products = ProductsQuery.new(name: 'Bag').count
 ```
 
 #### Object Methods

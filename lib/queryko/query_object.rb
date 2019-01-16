@@ -2,11 +2,13 @@ require "active_support/core_ext/class/attribute"
 require "queryko/range_attributes"
 require "queryko/searchables"
 require "queryko/after_attributes"
+require "queryko/naming"
 module Queryko
   class QueryObject
     attr_reader :countable_resource
     include Queryko::RangeAttributes
     include Queryko::Searchables
+    include Queryko::Naming
     # include AfterAttributes
 
     def initialize(params = {}, rel)

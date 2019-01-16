@@ -3,7 +3,7 @@ PATH
   specs:
     queryko (1.0.2)
       activerecord (>= 4.0)
-      activesupport
+      activesupport (>= 4.0)
 
 GEM
   remote: https://rubygems.org/

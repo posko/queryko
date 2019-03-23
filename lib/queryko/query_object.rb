@@ -7,10 +7,15 @@ require "queryko/naming"
 module Queryko
   class QueryObject
     attr_reader :countable_resource
+    include Queryko::Naming
     include Queryko::RangeAttributes
     include Queryko::Searchables
-    include Queryko::Naming
     # include AfterAttributes
+
+    def self.inherited(subclass)
+      # It should not be executed when using anonymous class
+      subclass.table_name inferred_from_class_name(subclass) if subclass.name
+    end
 
     def initialize(params = {}, rel)
       @relation = @original_relation = rel

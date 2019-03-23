@@ -19,6 +19,10 @@ RSpec.describe Queryko::QueryObject do
         add_range_attributes :id
         add_range_attributes :created_at
         add_searchables :name
+
+        def self.name
+          'ProductsQuery'
+        end
       end
     }
     let(:query) { products_query_class.new params, Product.all }

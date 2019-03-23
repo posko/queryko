@@ -3,6 +3,9 @@ require 'spec_helper'
 RSpec.describe Queryko::Naming do
   let(:query_object_class) {
     Class.new do
+      def self.name
+        'ProductsQuery'
+      end
       include Queryko::Naming
     end
   }
@@ -24,7 +27,7 @@ RSpec.describe Queryko::Naming do
       let(:query_instance) { query_object_class.new }
       context "#after_attributes" do
         it "has table_name" do
-          expect(query_instance.table_name).to eq("class")
+          expect(query_instance.table_name).to eq("products")
         end
 
         it "doesn't override table_name" do

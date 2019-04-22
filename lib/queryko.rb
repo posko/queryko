@@ -4,7 +4,7 @@ require "queryko/filters/base"
 require "queryko/filters/after"
 require "queryko/filters/before"
 require "queryko/filters/min"
-require "queryko/filters/max"
+require "queryko/filters/search"
 module Queryko
   # Your code goes here...
 end

@@ -89,8 +89,26 @@ module Queryko
     end
 
     def get_limit
-      params[:limit] || 50
-      # lim > 100 ? 100 : lim.to_i
+       lim = (params[:limit] || default_limit).to_i
+       if lower_limit > lim
+         lower_limit
+       elsif lim > upper_limit
+         upper_limit
+       else
+         lim
+       end
+    end
+
+    def upper_limit
+      100
+    end
+
+    def default_limit
+      50
+    end
+
+    def lower_limit
+      10
     end
 
     def by_ids

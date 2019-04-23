@@ -1,9 +1,10 @@
 require "queryko/filters/base"
 
 class Queryko::Filters::Search < Queryko::Filters::Base
-  attr_reader :cond
+  attr_reader :cond, :token_format
   def initialize(options = {}, feature)
     @cond = options.fetch(:cond)
+    @token_format = options[:token_format] || '%token%'
     super options, feature
   end
 
@@ -18,7 +19,7 @@ class Queryko::Filters::Search < Queryko::Filters::Base
   def format_query_params(token)
     @sql_cond ||= case cond.to_sym
     when :like
-      ['LIKE', "%#{token}%"]
+      ['LIKE', token_format.gsub('token', token)]
     when :eq
       ['=', token]
     when :neq

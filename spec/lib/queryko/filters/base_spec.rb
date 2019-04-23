@@ -5,7 +5,8 @@ RSpec.describe Queryko::Filters::Base do
   let(:options) do
     {
       table_name: 'users',
-      column_name: 'name'
+      column_name: 'name',
+      as: 'fullname'
     }
   end
   let(:filter_class) do
@@ -20,4 +21,5 @@ RSpec.describe Queryko::Filters::Base do
 
   it { expect(filter.table_name).to eq('users') }
   it { expect(filter.column_name).to eq('name') }
+  it { expect(filter.as).to eq('fullname') }
 end

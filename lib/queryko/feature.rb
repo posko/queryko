@@ -10,9 +10,6 @@ class Queryko::Feature
     self.filters[filter_name] << create_filter(name, options)
   end
 
-  private
-
-
   def create_filter(filter_name, options)
     options = default_options.merge(options)
     case filter_name
@@ -28,6 +25,8 @@ class Queryko::Feature
       filters[:search] ||= Queryko::Filters::Search.new(options)
     end
  end
+
+ private
 
  def default_options
    {

@@ -6,6 +6,7 @@ require "queryko/filters/before"
 require "queryko/filters/min"
 require "queryko/filters/search"
 require "queryko/feature"
+require "queryko/able"
 module Queryko
   # Your code goes here...
 end

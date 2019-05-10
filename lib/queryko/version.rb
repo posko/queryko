@@ -1,3 +1,3 @@
 module Queryko
-  VERSION = "1.2.0.beta"
+  VERSION = "1.2.1.beta"
 end

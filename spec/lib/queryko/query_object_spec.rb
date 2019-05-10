@@ -127,12 +127,6 @@ RSpec.describe Queryko::QueryObject do
       end
     end
 
-    describe "#add_range_attributes" do
-      it "adds id" do
-        expect(products_query_class.range_attributes.count).to eq(2)
-      end
-    end
-
     describe "#add_searchables" do
       let(:params) { { name: products[0].name}}
       it "adds id" do

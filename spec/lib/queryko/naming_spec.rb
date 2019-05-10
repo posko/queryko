@@ -25,7 +25,7 @@ RSpec.describe Queryko::Naming do
 
     describe 'instance' do
       let(:query_instance) { query_object_class.new }
-      context "#after_attributes" do
+      context "naming" do
         it "has table_name" do
           expect(query_instance.table_name).to eq("products")
         end
@@ -40,19 +40,4 @@ RSpec.describe Queryko::Naming do
       end
     end
   end
-
-  describe 'included' do
-    context "with attributeless class" do
-      let(:attributeless_class) {
-        Class.new do
-          include Queryko::AfterAttributes
-        end
-      }
-      it "is working well" do
-        object = attributeless_class.new
-        expect(object.after_attributes).to eq([])
-      end
-    end
-  end
-
 end

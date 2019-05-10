@@ -8,6 +8,7 @@ require "queryko/filters/max"
 require "queryko/filters/search"
 require "queryko/feature"
 require "queryko/able"
+require "queryko/filterer"
 module Queryko
   # Your code goes here...
 end

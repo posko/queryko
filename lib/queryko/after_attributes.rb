@@ -1,31 +1,15 @@
 module Queryko
   module AfterAttributes
-  def self.included(base)
-    base.extend(ClassMethods)
-    base.class_eval do
-      class_attribute :after_attributes, default: [], instance_writer: false
-      self.after_attributes = []
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
-      private
-
-      def filter_after_attributes
-        self.after_attributes.each do |attribute|
-          if params["after_#{attribute}".to_sym].present?
-            filter_after attribute
-          end
+    module ClassMethods
+      def add_after_attributes(*args)
+        args.each do |arg|
+          feature arg.to_sym, :after, as: "after_#{arg}"
         end
       end
-      def filter_after attribute
-        self.relation = relation.where("\"#{defined_table_name}\".\"#{attribute}\" > ?", params["after_#{attribute}".to_sym])
-      end
     end
   end
-
-  module ClassMethods
-    def add_after_attributes(*args)
-      self.after_attributes ||= []
-      self.after_attributes += args
-    end
-  end
-end
 end

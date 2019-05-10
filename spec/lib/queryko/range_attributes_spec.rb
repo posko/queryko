@@ -4,45 +4,37 @@ RSpec.describe Queryko::RangeAttributes do
   let(:query_object_class) do
     Class.new do
       include Queryko::RangeAttributes
+      include Queryko::Filterer
+
+      def defined_table_name
+        'products'
+      end
+
+      def self.defined_table_name
+        'products'
+      end
+
+      include Queryko::Able
       attr_accessor :params, :relation
       def initialize(params = {}, relation)
         @relation = relation
         @params = params
       end
       def call
-        filter_by_range_attributes
+        filter_by_filters
         relation
       end
       add_range_attributes :id
-
-      def defined_table_name
-        'products'
-      end
     end
   end
 
   describe 'anonymous class' do
-    describe 'subclass' do
-      let(:query_object_subclass) {
-        Class.new(query_object_class) do
-          add_range_attributes :subclass_id
-        end
-      }
-      let(:query_subclass) { query_object_subclass }
-      it "has range attributes :id" do
-        expect(query_subclass.range_attributes.first).to eq(:id)
-        expect(query_subclass.range_attributes.last).to eq(:subclass_id)
-      end
-    end
     describe 'instance' do
       context '#range_attribute' do
         let(:query_instance) { query_object_class.new nil, nil}
         it "has range attributes :id" do
-          expect(query_instance.range_attributes.first).to eq(:id)
-        end
+          expect(query_instance.fields.keys).to eq([:id_min, :id_max])
 
-        it "doesn't override range_attributes" do
-          expect{ query_instance.range_attributes = [:hello] }.to raise_error(NoMethodError)
         end
       end
 
@@ -65,20 +57,6 @@ RSpec.describe Queryko::RangeAttributes do
             query = query_object_class.new({ id_max: products[1]}, Product.all)
             expect(query.call.count).to eq(2)
           end
-        end
-      end
-    end
-
-    describe 'included' do
-      context "with attributeless class" do
-        let(:attributeless_class) {
-          Class.new do
-            include Queryko::RangeAttributes
-          end
-        }
-        it "is working well" do
-          object = attributeless_class.new
-          expect(object.range_attributes).to eq([])
         end
       end
     end

@@ -26,6 +26,10 @@ module Queryko
         # class names should be in plural form by default. No need to tableize
         klass.name.chomp('Query').split('::').last.underscore
       end
+
+      def inferred_model
+        inferred_from_class_name.last.singularize.constantize
+      end
     end
   end
 end

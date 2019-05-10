@@ -3,6 +3,8 @@ require "queryko/range_attributes"
 require "queryko/searchables"
 require "queryko/after_attributes"
 require "queryko/naming"
+require "queryko/able"
+require "queryko/filterer"
 
 module Queryko
   class QueryObject
@@ -10,6 +12,8 @@ module Queryko
     include Queryko::Naming
     include Queryko::RangeAttributes
     include Queryko::Searchables
+    include Queryko::Able
+    include Queryko::Filterer
     # include AfterAttributes
 
     def self.inherited(subclass)
@@ -18,7 +22,7 @@ module Queryko
     end
 
     def initialize(params = {}, rel)
-      @relation = @original_relation = rel
+      @relation = @original_relation = rel || inferred_model.all
       @params = params
     end
 
@@ -34,8 +38,7 @@ module Queryko
       @performed = true
       pre_filter
       filter
-      filter_by_range_attributes
-      filter_by_searchables
+      filter_by_filters
       @countable_resource = relation
     end
 
@@ -112,12 +115,11 @@ module Queryko
     end
 
     def by_ids
-      relation.where(id: params[:ids])
+      relation.where(id: params[:ids].split(','))
     end
 
     def since_id
       relation.where("\"#{defined_table_name}\".\"id\" > ?", params[:since_id])
     end
-
   end
 end

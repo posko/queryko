@@ -1,10 +1,16 @@
 require 'spec_helper'
 
 RSpec.describe Queryko::Filters::Base do
-  let(:feature) { double('feature') }
+  let(:query_object) do
+    OpenStruct.new defined_table_name: 'users'
+  end
+
+  let(:feature) do
+    OpenStruct.new query_object: query_object
+  end
+
   let(:options) do
     {
-      table_name: 'users',
       column_name: 'name',
       as: 'fullname'
     }

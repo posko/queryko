@@ -16,13 +16,17 @@ module Queryko
 
   module ClassMethods
     def feature(feature_name, filter, options = {})
+      # returns the feature if it exists
       feat = self.features[feature_name.to_sym] ||= Queryko::Feature.new feature_name, self
       self.filters[filter] ||= Array.new
+
+      # creates a filter
       filt = feat.create_filter filter, options
       self.filters[filter].push(filt)
 
-      # self.fields[filt.field] ||= Array.new
-      # self.fields.push(filt)
+      # appends new field
+      self.fields[filt.field.to_sym] ||= Array.new
+      self.fields[filt.field.to_sym].push(filt)
     end
   end
 end

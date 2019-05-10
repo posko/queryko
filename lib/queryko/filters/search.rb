@@ -3,7 +3,7 @@ require "queryko/filters/base"
 class Queryko::Filters::Search < Queryko::Filters::Base
   attr_reader :cond, :token_format
   def initialize(options = {}, feature)
-    @cond = options.fetch(:cond)
+    @cond = options.fetch(:cond) { :like }
     @token_format = options[:token_format] || '%token%'
     super options, feature
   end
@@ -12,7 +12,6 @@ class Queryko::Filters::Search < Queryko::Filters::Base
     query_cond, query_token = format_query_params(token)
     table_property = "\"#{table_name}\".\"#{column_name}\""
 
-    puts "#{table_property}, #{query_cond}, #{query_token}"
     collection.where("#{table_property} #{query_cond} ?", query_token)
   end
 

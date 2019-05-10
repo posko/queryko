@@ -3,35 +3,26 @@ class Queryko::Feature
   def initialize(name, query_object)
     @name = name
     @query_object = query_object
-    @filters = Hash.new([])
+    @filters = {}
   end
 
   def add_filter(filter_name, options = {})
     self.filters[filter_name] << create_filter(name, options)
   end
 
-  def create_filter(filter_name, options)
-    options = default_options.merge(options)
+  def create_filter(filter_name, options = {})
     case filter_name
     when :after
-      filters[:after] ||= Queryko::Filters::After.new(options)
+      result = filters[:after] ||= Queryko::Filters::After.new(options, self)
     when :before
-      filters[:before] ||= Queryko::Filters::Before.new(options)
+      result = filters[:before] ||= Queryko::Filters::Before.new(options, self)
     when :min
-      filters[:min] ||= Queryko::Filters::Min.new(options)
+      result = filters[:min] ||= Queryko::Filters::Min.new(options, self)
     when :max
-      filters[:max] ||= Queryko::Filters::Max.new(options)
+      result = filters[:max] ||= Queryko::Filters::Max.new(options, self)
     when :search
-      filters[:search] ||= Queryko::Filters::Search.new(options)
+      result = filters[:search] ||= Queryko::Filters::Search.new(options, self)
     end
- end
-
- private
-
- def default_options
-   {
-     class_name: self.query_object.defined_table_name,
-     column_name: name
-   }
+    result
  end
 end

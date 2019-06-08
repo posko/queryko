@@ -25,6 +25,17 @@ module Queryko
             search: Queryko::Filters::Search
           }
         end
+
+        def filter_class(symbol, klass)
+          filters[symbol.to_sym] = constantize_class(klass)
+        end
+
+        private
+
+        def constantize_class(klass)
+          return klass unless klass.class == String
+          klass.constantize
+        end
       end
   end
 end

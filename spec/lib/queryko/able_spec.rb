@@ -4,6 +4,7 @@ RSpec.describe Queryko::Able do
   let(:query_object_class) {
     Class.new do
       include Queryko::Able
+      include Queryko::FilterClasses
       def self.defined_table_name
         'products'
       end
@@ -18,10 +19,10 @@ RSpec.describe Queryko::Able do
 
     it { expect(query_object.features.count).to eq(2) }
     it { expect(query_object.features.keys).to eq([:created_at, :updated_at]) }
-    it { expect(query_object.filters.count).to eq(3) }
-    it { expect(query_object.filters.keys).to eq([:search, :min, :max]) }
+    it { expect(query_object.defined_filters.count).to eq(3) }
+    it { expect(query_object.defined_filters.keys).to eq([:search, :min, :max]) }
     it { expect(query_object.fields.keys).to eq([:created_at_search, :created_at_min, :updated_at_max]) }
-    it { expect(query_object.features[:created_at].filters.count).to eq(2) }
+    it { expect(query_object.features[:created_at].filter_names.count).to eq(2) }
     it { expect(query_object.fields[:created_at_min].first.class).to eq(Queryko::Filters::Min) }
   end
 
@@ -30,12 +31,14 @@ RSpec.describe Queryko::Able do
       let(:attributeless_class) {
         Class.new do
           include Queryko::Able
+          include Queryko::FilterClasses
+
         end
       }
 
       it "is has default attributes" do
         object = attributeless_class.new
-        expect(object.filters).to eq({})
+        expect(object.defined_filters).to eq({})
         expect(object.features).to eq({})
         expect(object.fields).to eq({})
       end

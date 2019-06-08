@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe Queryko::RangeAttributes do
   let(:query_object_class) do
     Class.new do
+      include Queryko::FilterClasses
       include Queryko::RangeAttributes
       include Queryko::Filterer
 

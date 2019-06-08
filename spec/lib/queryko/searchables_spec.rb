@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe Queryko::Searchables do
   let(:sample_class) do
     Class.new do
+      include Queryko::FilterClasses
       include Queryko::Searchables
 
       def defined_table_name

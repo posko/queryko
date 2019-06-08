@@ -1,28 +1,25 @@
 class Queryko::Feature
-  attr_reader :name, :filters, :query_object
+  attr_reader :name, :filter_names, :query_object
   def initialize(name, query_object)
     @name = name
     @query_object = query_object
-    @filters = {}
+    @filter_names = {}
   end
 
   def add_filter(filter_name, options = {})
-    self.filters[filter_name] << create_filter(name, options)
+    self.filter_names[filter_name] = create_filter(filter_name, options)
   end
 
   def create_filter(filter_name, options = {})
-    case filter_name
-    when :after
-      result = filters[:after] ||= Queryko::Filters::After.new(options, self)
-    when :before
-      result = filters[:before] ||= Queryko::Filters::Before.new(options, self)
-    when :min
-      result = filters[:min] ||= Queryko::Filters::Min.new(options, self)
-    when :max
-      result = filters[:max] ||= Queryko::Filters::Max.new(options, self)
-    when :search
-      result = filters[:search] ||= Queryko::Filters::Search.new(options, self)
+    if filter_class = filter_class_for(filter_name)
+      result = filter_class.new(options, self)
+    else
+      raise "Filter class for #{filter_name} not found"
     end
     result
- end
+  end
+
+  def filter_class_for(filter_name)
+    self.query_object.filters.fetch(filter_name.to_sym)
+  end
 end

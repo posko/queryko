@@ -5,10 +5,12 @@ require "queryko/after_attributes"
 require "queryko/naming"
 require "queryko/able"
 require "queryko/filterer"
+require "queryko/filter_classes"
 
 module Queryko
   class QueryObject
     attr_reader :countable_resource
+    include Queryko::FilterClasses
     include Queryko::Naming
     include Queryko::RangeAttributes
     include Queryko::Searchables

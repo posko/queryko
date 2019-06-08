@@ -3,6 +3,7 @@ require 'spec_helper'
 RSpec.describe Queryko::AfterAttributes do
   let(:query_object_class) {
     Class.new do
+      include Queryko::FilterClasses
       include Queryko::AfterAttributes
       def defined_table_name
         'products'

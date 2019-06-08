@@ -15,6 +15,7 @@ RSpec.describe Queryko::QueryObject do
   describe 'anonymous class' do
     let(:products_query_class) {
       Class.new(Queryko::QueryObject) do
+        include Queryko::FilterClasses
         table_name 'products'
         add_range_attributes :id
         add_range_attributes :created_at

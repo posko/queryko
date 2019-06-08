@@ -23,6 +23,10 @@ RSpec.describe Queryko::QueryObject do
         def self.name
           'ProductsQuery'
         end
+
+        def lower_limit
+          2
+        end
       end
     }
     let(:query) { products_query_class.new params, Product.all }

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    queryko (1.2.0.beta)
+    queryko (1.2.1.beta)
       activerecord (>= 4.0)
       activesupport (>= 4.0)
 

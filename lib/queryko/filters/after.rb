@@ -6,6 +6,6 @@ class Queryko::Filters::After < Queryko::Filters::Base
   end
 
   def perform(collection, token)
-    collection.where("\"#{table_name}\".\"#{column_name}\" > ?", token)
+    collection.where("#{table_name}.#{column_name} > ?", token)
   end
 end

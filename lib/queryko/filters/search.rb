@@ -10,7 +10,7 @@ class Queryko::Filters::Search < Queryko::Filters::Base
 
   def perform(collection, token)
     query_cond, query_token = format_query_params(token)
-    table_property = "\"#{table_name}\".\"#{column_name}\""
+    table_property = "#{table_name}.#{column_name}"
 
     collection.where("#{table_property} #{query_cond} ?", query_token)
   end

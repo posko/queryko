@@ -119,7 +119,7 @@ module Queryko
     end
 
     def since_id
-      relation.where("\"#{defined_table_name}\".\"id\" > ?", params[:since_id])
+      relation.where("#{defined_table_name}.id > ?", params[:since_id])
     end
   end
 end

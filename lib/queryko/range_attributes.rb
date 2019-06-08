@@ -11,6 +11,7 @@ module Queryko
           feature arg.to_sym, :min
           feature arg.to_sym, :max
           suggestion << "feature :#{arg}, :min"
+          suggestion << "feature :#{arg}, :max"
         end
         warn "[DEPRECATION] `add_range_attributes` is deprecated. Please use `feature` instead.\nExample:\n#{suggestion.join("\n")}"
       end

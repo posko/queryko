@@ -1,11 +1,8 @@
 require "queryko/filters/base"
 
 class Queryko::Filters::Order < Queryko::Filters::Base
-  def intialize(options = {}, feature)
-    super options, feature
-  end
 
-  def perform(collection, token, params = {})
+  def perform(collection, token, query_object = nil)
     collection.order("#{table_name}.#{column_name} #{filter_input(token)}", )
   end
 

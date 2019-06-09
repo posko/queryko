@@ -6,6 +6,7 @@ require "queryko/filters/max"
 require "queryko/filters/search"
 require "queryko/filters/order"
 require "queryko/filters/batch"
+require "queryko/filters/paginate"
 
 module Queryko
   module FilterClasses
@@ -26,7 +27,8 @@ module Queryko
             max: Queryko::Filters::Max,
             search: Queryko::Filters::Search,
             order: Queryko::Filters::Order,
-            batch: Queryko::Filters::Batch
+            batch: Queryko::Filters::Batch,
+            paginate: Queryko::Filters::Paginate
           }
         end
 

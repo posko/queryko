@@ -15,13 +15,14 @@ RSpec.describe Queryko::Base do
   describe 'anonymous class' do
     let(:products_query_class) {
       Class.new(Queryko::Base) do
-        include Queryko::FilterClasses
         table_name 'products'
         feature :id, :min
         feature :id, :max
         feature :created_at, :min
         feature :created_at, :max
         feature :name, :search, as: :name
+        feature :paginate, :paginate, upper: 100, lower: 2
+
         def self.name
           'ProductsQuery'
         end

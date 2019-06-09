@@ -11,11 +11,14 @@ module Queryko
     include Queryko::Naming
     include Queryko::Able
     include Queryko::Filterer
+
+    attr_reader :params
     # include AfterAttributes
     def self.inherited(subclass)
       # It should not be executed when using anonymous class
       subclass.table_name inferred_from_class_name(subclass) if subclass.name
     end
+
 
     def initialize(params = {}, rel)
       @relation = @original_relation = rel || inferred_model.all
@@ -28,7 +31,9 @@ module Queryko
 
     def build_default_params
       {
-        page: 1
+        page: 1,
+        limit: 50,
+        paginate: true
       }
     end
 
@@ -38,7 +43,6 @@ module Queryko
 
     def call
       perform
-      self.relation = paginate if config[:paginate]
       return relation
     end
 
@@ -71,60 +75,15 @@ module Queryko
 
     private
 
-    attr_reader :params, :relation
-    attr_writer :relation
+    attr_accessor :relation
 
     def config
       @config ||= {
-        paginate: true,
       }
     end
 
     def filter
-    end
-
-    def paginate
-      if defined?(WillPaginate)
-        relation.paginate(page: page, per_page: limit)
-      elsif defined?(Kaminari)
-        relation.page(page).per(limit)
-      else
-        raise 'Only kaminari and wil_paginate are supported'
-      end
-    end
-
-    def page
-      params[:page] || 1
-    end
-
-    def limit
-      @limit ||= get_limit
-    end
-
-    def get_limit
-       lim = (params[:limit] || default_limit).to_i
-       if lower_limit > lim
-         lower_limit
-       elsif lim > upper_limit
-         upper_limit
-       else
-         lim
-       end
-    end
-
-    def upper_limit
-      100
-    end
-
-    def default_limit
-      50
-    end
-
-    def lower_limit
-      10
-    end
-
-    def by_ids
+      # overridable method
     end
   end
 end

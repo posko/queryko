@@ -46,7 +46,6 @@ module Queryko
       return if @performed
 
       @performed = true
-      pre_filter
       filter
       filter_by_filters
       @countable_resource = relation
@@ -78,14 +77,7 @@ module Queryko
     def config
       @config ||= {
         paginate: true,
-        since_id: true,
-        ids: true
       }
-    end
-
-    def pre_filter
-      self.relation = by_ids if config[:ids] && params[:ids]
-      # self.relation = since_id if config[:since_id] && params[:since_id]
     end
 
     def filter
@@ -133,7 +125,6 @@ module Queryko
     end
 
     def by_ids
-      relation.where(id: params[:ids].split(','))
     end
   end
 end

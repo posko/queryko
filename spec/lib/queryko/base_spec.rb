@@ -22,7 +22,6 @@ RSpec.describe Queryko::Base do
         feature :created_at, :min
         feature :created_at, :max
         feature :name, :search, as: :name
-        feature :id, :after, as: :since_id
         def self.name
           'ProductsQuery'
         end
@@ -37,25 +36,17 @@ RSpec.describe Queryko::Base do
     describe '#call' do
       let(:params) do
         {
-          ids: [products[0].id, products[1].id],
           id_min: products[1].id
         }
       end
 
       it "filters query with params" do
-        expect(query.count).to eq(1)
+        expect(query.count).to eq(2)
       end
     end
 
     describe '#count' do
       it { expect(query.count).to eq(3) }
-    end
-    context 'using ids' do
-      let(:params) { { ids: [products[0].id, products[1].id] } }
-
-      it "filters query" do
-        expect(query.count).to eq(2)
-      end
     end
 
     context 'using limit' do

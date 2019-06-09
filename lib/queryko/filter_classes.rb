@@ -5,6 +5,7 @@ require "queryko/filters/min"
 require "queryko/filters/max"
 require "queryko/filters/search"
 require "queryko/filters/order"
+require "queryko/filters/batch"
 
 module Queryko
   module FilterClasses
@@ -24,7 +25,8 @@ module Queryko
             min: Queryko::Filters::Min,
             max: Queryko::Filters::Max,
             search: Queryko::Filters::Search,
-            order: Queryko::Filters::Order
+            order: Queryko::Filters::Order,
+            batch: Queryko::Filters::Batch
           }
         end
 

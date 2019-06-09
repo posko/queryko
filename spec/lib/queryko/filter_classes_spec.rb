@@ -11,7 +11,7 @@ RSpec.describe Queryko::Naming do
   let(:initial_count) { query_object.filters.count }
 
   context 'with default filters' do
-    it { expect(query_object.filters.count).to eq 6 }
+    it { expect(query_object.filters.count).to eq 7 }
   end
 
   context 'with custom filters' do
@@ -22,7 +22,7 @@ RSpec.describe Queryko::Naming do
         filter_class :example, "Queryko::Filters::Before"
       end
     end
-    it { expect(query_object.filters.count).to eq 8 }
+    it { expect(query_object.filters.count).to eq 9 }
     it { expect(query_object.filters[:queryko]).to eq Queryko }
     it { expect(query_object.filters[:example]).to eq Queryko::Filters::Before }
   end

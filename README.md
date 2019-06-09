@@ -34,6 +34,8 @@ class ProductsQuery < Queryko::QueryObject
   feature :price, :max
   feature :name, :search, as: :name
   feature :vendor, :search, as: :vendor
+  feature :id, :after, as: :since_id
+  feature :id, :batch, as: :by_ids
 end
 ```
 

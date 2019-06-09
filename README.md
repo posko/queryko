@@ -129,6 +129,19 @@ end
 | since_id | retrieves records after `id` |
 | page     | page to retrieve             |
 
+
+### File structure
+You are free to structure your query objects and custom filters. Or group them
+in one folder
+```
+app/
+└─ queries/
+   ├─ filters/
+   │  └─ cool_search.rb
+   ├─ products_query.rb
+   └─ query_base.rb
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/neume/queryko. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.

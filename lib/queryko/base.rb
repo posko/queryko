@@ -1,7 +1,4 @@
 require "active_support/core_ext/class/attribute"
-require "queryko/range_attributes"
-require "queryko/searchables"
-require "queryko/after_attributes"
 require "queryko/naming"
 require "queryko/able"
 require "queryko/filterer"
@@ -12,8 +9,6 @@ module Queryko
     attr_reader :countable_resource
     include Queryko::FilterClasses
     include Queryko::Naming
-    include Queryko::RangeAttributes
-    include Queryko::Searchables
     include Queryko::Able
     include Queryko::Filterer
     # include AfterAttributes

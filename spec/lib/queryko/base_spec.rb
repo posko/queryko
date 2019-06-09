@@ -17,9 +17,11 @@ RSpec.describe Queryko::Base do
       Class.new(Queryko::Base) do
         include Queryko::FilterClasses
         table_name 'products'
-        add_range_attributes :id
-        add_range_attributes :created_at
-        add_searchables :name
+        feature :id, :min
+        feature :id, :max
+        feature :created_at, :min
+        feature :created_at, :max
+        feature :name, :search, as: :name
 
         def self.name
           'ProductsQuery'

@@ -20,7 +20,21 @@ module Queryko
 
     def initialize(params = {}, rel)
       @relation = @original_relation = rel || inferred_model.all
-      @params = params
+      @params = default_params.merge(params)
+    end
+
+    def default_params
+      @default_params ||= build_default_params
+    end
+
+    def build_default_params
+      {
+        page: 1
+      }
+    end
+
+    def self.call(params = {}, rel)
+      new(params, rel).call
     end
 
     def call
@@ -40,9 +54,17 @@ module Queryko
     end
 
 
+    def self.total_count(params = {}, rel)
+      new(params, rel).total_count
+    end
+
     def total_count
       perform
       countable_resource.count
+    end
+
+    def self.count(params = {}, rel)
+      new(params, rel).count
     end
 
     def count

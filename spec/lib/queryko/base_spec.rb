@@ -22,7 +22,7 @@ RSpec.describe Queryko::Base do
         feature :created_at, :min
         feature :created_at, :max
         feature :name, :search, as: :name
-
+        feature :id, :after, as: :since_id
         def self.name
           'ProductsQuery'
         end
@@ -100,13 +100,6 @@ RSpec.describe Queryko::Base do
 
       context "when invoking total_count only" do
         it { expect(query.total_count).to eq(3) }
-      end
-    end
-
-    context "using since_id" do
-      let(:params) { { since_id: products[1].id } }
-      it "returns list of products" do
-        expect(query.count).to eq(1)
       end
     end
 

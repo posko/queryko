@@ -12,7 +12,6 @@ module Queryko
     include Queryko::Able
     include Queryko::Filterer
     # include AfterAttributes
-
     def self.inherited(subclass)
       # It should not be executed when using anonymous class
       subclass.table_name inferred_from_class_name(subclass) if subclass.name
@@ -86,7 +85,7 @@ module Queryko
 
     def pre_filter
       self.relation = by_ids if config[:ids] && params[:ids]
-      self.relation = since_id if config[:since_id] && params[:since_id]
+      # self.relation = since_id if config[:since_id] && params[:since_id]
     end
 
     def filter
@@ -135,10 +134,6 @@ module Queryko
 
     def by_ids
       relation.where(id: params[:ids].split(','))
-    end
-
-    def since_id
-      relation.where("#{defined_table_name}.id > ?", params[:since_id])
     end
   end
 end

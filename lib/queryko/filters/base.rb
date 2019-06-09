@@ -11,11 +11,25 @@ module Queryko
       end
 
       def field
-        @field ||= as || build_field_from_column
+        @field ||= as || build_param_key
       end
 
-      def build_field_from_column
-        "#{column_name}_#{self.class.name.split('::').last.underscore}"
+      def param_key_format
+        nil
+      end
+
+      private
+
+      def build_param_key
+        param_key_format || default_param_key_format
+      end
+
+      def default_param_key_format
+        "#{column_name}_#{parameterized_name}"
+      end
+
+      def parameterized_name
+        self.class.name.split('::').last.underscore
       end
     end
   end

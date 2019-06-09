@@ -27,7 +27,7 @@ Or install it yourself as:
 ### Create a query object
 
 ``` ruby
-class ProductsQuery < Queryko::QueryObject
+class ProductsQuery < Queryko::Base
   feature :created_at, :min
   feature :created_at, :max
   feature :price, :min

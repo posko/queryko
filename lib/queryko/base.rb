@@ -16,6 +16,12 @@ module Queryko
 
     attr_reader :params
 
+    class_attribute :defaults
+    self.defaults = {}
+
+    def self.default(sym, value)
+      self.defaults[sym] = value
+    end
     def initialize(params = {}, rel=nil)
       @relation = @original_relation = rel || self.class.model_class.all
       @params = self.defaults.merge(params)
@@ -70,9 +76,5 @@ module Queryko
       # overridable method
     end
 
-    class_attribute :defaults, default: {}
-    def self.default(sym, value)
-      self.defaults[sym] = value
-    end
   end
 end

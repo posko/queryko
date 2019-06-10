@@ -3,6 +3,7 @@ require "queryko/naming"
 require "queryko/able"
 require "queryko/filterer"
 require "queryko/filter_classes"
+require "byebug"
 
 module Queryko
   class Base
@@ -16,25 +17,15 @@ module Queryko
     # include AfterAttributes
     def self.inherited(subclass)
       # It should not be executed when using anonymous class
-      subclass.table_name inferred_from_class_name(subclass) if subclass.name
+      # subclass.table_name inferred_from_class_name(subclass) if subclass.name
+      table_name inferred_from_class_name(subclass)
+      model_class inferred_model(subclass)
     end
 
 
-    def initialize(params = {}, rel)
-      @relation = @original_relation = rel || inferred_model.all
-      @params = default_params.merge(params)
-    end
-
-    def default_params
-      @default_params ||= build_default_params
-    end
-
-    def build_default_params
-      {
-        page: 1,
-        limit: 50,
-        paginate: true
-      }
+    def initialize(params = {}, rel=nil)
+      @relation = @original_relation = rel || self.defined_model_class.all
+      @params = self.defaults.merge(params)
     end
 
     def self.call(params = {}, rel)
@@ -84,6 +75,11 @@ module Queryko
 
     def filter
       # overridable method
+    end
+
+    class_attribute :defaults, default: {}
+    def self.default(sym, value)
+      self.defaults[sym] = value
     end
   end
 end

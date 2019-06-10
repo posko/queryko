@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'kaminari'
   spec.add_development_dependency 'will_paginate', '~> 3.1.0'
+  spec.add_development_dependency 'byebug'
 end

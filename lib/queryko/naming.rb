@@ -3,8 +3,8 @@ module Queryko
     def self.included(base)
       base.extend(ClassMethods)
       base.class_eval do
-        class_attribute :defined_table_name, default: :table, instance_writer: false
-        class_attribute :defined_model_class, default: :model, instance_writer: false
+        class_attribute :defined_table_name, default: nil, instance_writer: false
+        class_attribute :defined_model_class, default: nil, instance_writer: false
         # class_attribute :abstract_class, default: false, instance_writer: false
 
         def table_name
@@ -21,7 +21,7 @@ module Queryko
       def table_name(name = nil)
         if name
           self.defined_table_name = name.to_s
-        elsif self.defined_table_name == :table
+        elsif self.defined_table_name.nil?
           self.defined_table_name = inferred_from_class_name(self)
         end
 
@@ -31,7 +31,7 @@ module Queryko
       def model_class(name = nil)
         if name
           self.defined_model_class = name.to_s.constantize
-        elsif self.defined_model_class == :model
+        elsif self.defined_model_class.nil?
           self.defined_model_class = inferred_model(self)
         end
 

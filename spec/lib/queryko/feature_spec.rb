@@ -28,7 +28,6 @@ RSpec.describe Queryko::Feature do
 
     it 'creates filter' do
       expect(feature.filter_names[:after].column_name).to eq('created_at')
-      expect(feature.filter_names[:after].table_name).to eq('products')
       expect(feature.filter_names[:after].class).to eq(Queryko::Filters::After)
       expect(feature.filter_names[:after].field).to eq('created_at_after')
       expect(feature.filter_names.count).to eq(2)

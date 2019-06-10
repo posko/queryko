@@ -1,14 +1,16 @@
 require 'spec_helper'
 
 RSpec.describe Queryko::Base do
-  class ProductsQuery < Queryko::Base
+  class ApplicationQuery < Queryko::Base
     feature :id, :min
     feature :id, :max
     feature :created_at, :min
     feature :created_at, :max
     feature :name, :search, as: :name
     feature :paginate, :paginate, upper: 100, lower: 2
+  end
 
+  class ProductsQuery < ApplicationQuery
     default :paginate, true
     default :limit, 10
   end

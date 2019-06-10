@@ -25,7 +25,7 @@ RSpec.describe Queryko::Filters::Base do
 
   let(:filter) { filter_class.new(options, feature) }
 
-  it { expect(filter.table_name).to eq('users') }
+  # it { expect(filter.table_name).to eq('users') }
   it { expect(filter.field).to eq('fullname_match') }
   it { expect(filter.column_name).to eq('fullname') }
   it { expect(filter.as).to eq(nil) }

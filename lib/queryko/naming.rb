@@ -4,22 +4,44 @@ module Queryko
       base.extend(ClassMethods)
       base.class_eval do
         class_attribute :defined_table_name, default: :table, instance_writer: false
-        class_attribute :defined_model_class, default: :table, instance_writer: false
+        class_attribute :defined_model_class, default: :model, instance_writer: false
+        # class_attribute :abstract_class, default: false, instance_writer: false
+
         def table_name
-          self.defined_table_name
+          self.class.table_name
+        end
+
+        def model_class
+          self.class.model_class
         end
       end
     end
 
     module ClassMethods
       def table_name(name = nil)
-        return self.defined_table_name unless name
-        self.defined_table_name = name.to_s
+        if name
+          self.defined_table_name = name.to_s
+        elsif self.defined_table_name == :table
+          self.defined_table_name = inferred_from_class_name(self)
+        end
+
+        return self.defined_table_name
       end
 
       def model_class(name = nil)
-        return self.defined_model_class unless name
-        self.defined_model_class = name.to_s.constantize
+        if name
+          self.defined_model_class = name.to_s.constantize
+        elsif self.defined_model_class == :model
+          self.defined_model_class = inferred_model(self)
+        end
+
+        # require 'byebug'
+        # byebug
+        return self.defined_model_class
+      end
+
+      def abstract_class
+        @abstract_class = true
       end
 
       def inferred_from_class_name(klass)

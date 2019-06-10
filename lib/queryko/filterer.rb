@@ -5,7 +5,7 @@ module Queryko
         if field == 'limit' || field == 'page'
           paginate(filter, )
         end
-        self.relation = filter.first.perform(relation, params[field], self) if params[field]
+        self.relation = filter.first.call(relation, params[field], self) if params[field]
       end
     end
 

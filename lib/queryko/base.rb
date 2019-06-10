@@ -6,6 +6,7 @@ require "queryko/filter_classes"
 require "byebug"
 
 module Queryko
+
   class Base
     attr_reader :countable_resource
     include Queryko::FilterClasses
@@ -14,17 +15,25 @@ module Queryko
     include Queryko::Filterer
 
     attr_reader :params
-    # include AfterAttributes
+
     def self.inherited(subclass)
       # It should not be executed when using anonymous class
       # subclass.table_name inferred_from_class_name(subclass) if subclass.name
-      table_name inferred_from_class_name(subclass)
-      model_class inferred_model(subclass)
+      # if self.abstract_class
+      #   puts "Setting table name #{subclass.name}"
+      #   puts "abstract? #{subclass.abstract_class}"
+      #   table_name inferred_from_class_name(subclass)
+      #   puts "Setting Model"
+      #   model_class inferred_model(subclass)
+      # end
+      # self.abstract_class = false
+      # require 'byebug'
+      # byebug
     end
 
-
     def initialize(params = {}, rel=nil)
-      @relation = @original_relation = rel || self.defined_model_class.all
+      puts "#{'1'*100}#{self.class.model_class}"
+      @relation = @original_relation = rel || self.class.model_class.all
       @params = self.defaults.merge(params)
     end
 

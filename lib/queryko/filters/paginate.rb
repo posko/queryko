@@ -4,8 +4,6 @@ class Queryko::Filters::Paginate < Queryko::Filters::Base
   attr_reader :upper_limit, :lower_limit, :default_limit, :params
 
   def initialize(options = {}, feature)
-    puts '-' * 100
-    puts options
     @upper_limit = options.fetch(:upper) { 100 }
     @lower_limit = options.fetch(:lower) { 10 }
 
@@ -15,7 +13,6 @@ class Queryko::Filters::Paginate < Queryko::Filters::Base
   def perform(collection, paginate, query_object)
     if paginate
       @params = query_object.params
-      puts "#{query_object.params}: #{page} : #{limit}"
 
       if defined?(WillPaginate)
         collection.paginate(page: page, per_page: limit)

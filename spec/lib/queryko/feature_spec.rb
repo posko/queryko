@@ -15,8 +15,7 @@ RSpec.describe Queryko::Feature do
   let(:feature) do
     described_class.new feature_name, query_object
   end
-
-  it { puts "#{query_object.filters[:min]}" }
+  
   describe '#create_filter' do
     let(:feature_name) { 'created_at' }
     let(:options) { {filters: [:after] } }

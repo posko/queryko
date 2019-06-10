@@ -16,23 +16,7 @@ module Queryko
 
     attr_reader :params
 
-    def self.inherited(subclass)
-      # It should not be executed when using anonymous class
-      # subclass.table_name inferred_from_class_name(subclass) if subclass.name
-      # if self.abstract_class
-      #   puts "Setting table name #{subclass.name}"
-      #   puts "abstract? #{subclass.abstract_class}"
-      #   table_name inferred_from_class_name(subclass)
-      #   puts "Setting Model"
-      #   model_class inferred_model(subclass)
-      # end
-      # self.abstract_class = false
-      # require 'byebug'
-      # byebug
-    end
-
     def initialize(params = {}, rel=nil)
-      puts "#{'1'*100}#{self.class.model_class}"
       @relation = @original_relation = rel || self.class.model_class.all
       @params = self.defaults.merge(params)
     end

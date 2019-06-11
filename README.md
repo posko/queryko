@@ -95,12 +95,12 @@ end
 Create a custom filter class using `Queryko::Filters::Base`
 
 ``` ruby
-class CustomFilters::CoolSearch < Queryko::Filters::Base
+class Filters::CoolSearch < Queryko::Filters::Base
 
   # Optional.
   # Some `options` keys are reserved for basic functionality
   # Use `options` to get data from feature definition
-  def intialize(options = {}, feature)
+  def initialize(options = {}, feature)
     super options, feature
   end
 

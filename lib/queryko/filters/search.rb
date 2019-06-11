@@ -8,7 +8,7 @@ class Queryko::Filters::Search < Queryko::Filters::Base
     super options, feature
   end
 
-  def perform(collection, token)
+  def perform(collection, token, query_object)
     query_cond, query_token = format_query_params(token)
     table_property = "#{table_name}.#{column_name}"
 

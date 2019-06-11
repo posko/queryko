@@ -5,7 +5,7 @@ class Queryko::Filters::Max < Queryko::Filters::Base
     super options, feature
   end
 
-  def perform(collection, token)
+  def perform(collection, token, query_object)
     collection.where("#{table_name}.#{column_name} <= ?", token)
   end
 end

@@ -4,7 +4,7 @@ module Queryko
       fields.each do |field, filter|
         # puts field
         # puts filter, filter.first.class.name
-        self.relation = filter.first.perform(relation, params[field]) if params[field]
+        self.relation = filter.first.call(relation, params[field], self) if params[field]
       end
     end
   end

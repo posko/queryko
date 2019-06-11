@@ -18,13 +18,8 @@ module Queryko
     include Queryko::Filterer
     # include AfterAttributes
 
-    def self.inherited(subclass)
-      # It should not be executed when using anonymous class
-      subclass.table_name inferred_from_class_name(subclass) if subclass.name
-    end
-
-    def initialize(params = {}, rel)
-      @relation = @original_relation = rel || inferred_model.all
+    def initialize(params = {}, rel = nil)
+      @relation = @original_relation = rel || self.class.model_class.all
       @params = params
     end
 

@@ -18,5 +18,5 @@ RSpec.describe Queryko::Filters::Max do
   end
 
 
-  it { expect(filter.perform(Product.all, index).count).to eq(4) }
+  it { expect(filter.perform(Product.all, index, nil).count).to eq(4) }
 end

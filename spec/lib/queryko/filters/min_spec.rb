@@ -18,6 +18,6 @@ RSpec.describe Queryko::Filters::Min do
   end
 
 
-  it { expect(filter.perform(Product.all, index).count).to eq(4) }
+  it { expect(filter.perform(Product.all, index, nil).count).to eq(4) }
   it { expect(filter.field).to eq('id_min') }
 end

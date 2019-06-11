@@ -18,5 +18,5 @@ RSpec.describe Queryko::Filters::Before do
   end
 
 
-  it { expect(filter.perform(Product.all, index).count).to eq(3) }
+  it { expect(filter.perform(Product.all, index, nil).count).to eq(3) }
 end

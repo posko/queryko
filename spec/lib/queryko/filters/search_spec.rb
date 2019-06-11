@@ -18,19 +18,19 @@ RSpec.describe Queryko::Filters::Search do
     end
   end
   it { expect(filter.cond).to eq(:like) }
-  it { expect(filter.perform(Product.all, token).count).to eq(5) }
+  it { expect(filter.perform(Product.all, token, nil).count).to eq(5) }
 
   describe 'eq' do
     let(:token) { 'Product 1' }
     let(:cond) { :eq }
 
-    it { expect(filter.perform(Product.all, token).count).to eq(1) }
+    it { expect(filter.perform(Product.all, token, nil).count).to eq(1) }
   end
 
   describe 'not' do
     let(:token) { 'Product 1' }
     let(:cond) { :neq }
 
-    it { expect(filter.perform(Product.all, token).count).to eq(4) }
+    it { expect(filter.perform(Product.all, token, nil).count).to eq(4) }
   end
 end

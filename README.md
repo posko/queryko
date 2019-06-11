@@ -106,7 +106,7 @@ class Filters::CoolSearch < Queryko::Filters::Base
 
   # Required. This method is called by query object. Always return the result of
   # the collection
-  def perform(collection, token)
+  def perform(collection, token, query_object)
     collection.where("#{table_name}.#{column_name} < ?", "Cool-#{token}")
   end
 end

@@ -19,6 +19,7 @@ module Queryko
     class_attribute :defaults, default: {}
 
     def self.default(sym, value)
+      self.defaults ||= {} # Ensure an empty hash. It keeps on raising an error
       self.defaults[sym] = value
     end
 

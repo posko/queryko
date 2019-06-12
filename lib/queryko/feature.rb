@@ -20,6 +20,8 @@ class Queryko::Feature
   end
 
   def filter_class_for(filter_name)
-    self.query_object.filters.fetch(filter_name.to_sym)
+    filter_class = self.query_object.filters.fetch(filter_name.to_sym)
+    return filter_class.constantize if filter_class.class == String
+    return filter_class
   end
 end

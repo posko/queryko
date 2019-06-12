@@ -21,14 +21,14 @@ module Queryko
       module ClassMethods
         def load_defaults
           self.filters = {
-            after: Queryko::Filters::After,
-            before: Queryko::Filters::Before,
-            min: Queryko::Filters::Min,
-            max: Queryko::Filters::Max,
-            search: Queryko::Filters::Search,
-            order: Queryko::Filters::Order,
-            batch: Queryko::Filters::Batch,
-            paginate: Queryko::Filters::Paginate
+            after: "Queryko::Filters::After",
+            before: "Queryko::Filters::Before",
+            min: "Queryko::Filters::Min",
+            max: "Queryko::Filters::Max",
+            search: "Queryko::Filters::Search",
+            order: "Queryko::Filters::Order",
+            batch: "Queryko::Filters::Batch",
+            paginate: "Queryko::Filters::Paginate"
           }
         end
 

@@ -16,7 +16,7 @@ class Queryko::Filters::Search < Queryko::Filters::Base
   end
 
   def format_query_params(token)
-    @sql_cond ||= case cond.to_sym
+    case cond.to_sym
     when :like
       ['LIKE', token_format.gsub('token', token)]
     when :eq

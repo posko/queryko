@@ -23,6 +23,7 @@ module Queryko
     end
 
     def initialize(params = {}, rel=nil)
+      self.defaults ||= {} # Ensure an empty hash. It keeps on raising an error
       @relation = @original_relation = rel || self.class.model_class.all
       @params = self.defaults.merge(params)
     end

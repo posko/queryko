@@ -16,13 +16,13 @@ module Queryko
 
     attr_reader :params
 
-    class_attribute :defaults
+    class_attribute :defaults, default: {}
 
     def self.default(sym, value)
       self.defaults[sym] = value
     end
+
     def initialize(params = {}, rel=nil)
-      self.defaults ||= {}
       @relation = @original_relation = rel || self.class.model_class.all
       @params = self.defaults.merge(params)
     end

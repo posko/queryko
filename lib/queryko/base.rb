@@ -27,7 +27,7 @@ module Queryko
       @params = self.defaults.merge(params)
     end
 
-    def self.call(params = {}, rel)
+    def self.call(params = {}, rel = nil)
       new(params, rel).call
     end
 
@@ -46,7 +46,7 @@ module Queryko
     end
 
 
-    def self.total_count(params = {}, rel)
+    def self.total_count(params = {}, rel = nil)
       new(params, rel).total_count
     end
 
@@ -55,7 +55,7 @@ module Queryko
       countable_resource.count
     end
 
-    def self.count(params = {}, rel)
+    def self.count(params = {}, rel = nil)
       new(params, rel).count
     end
 

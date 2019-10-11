@@ -6,11 +6,7 @@ module Queryko
         class_attribute :defined_filters, default: {}, instance_writer: false
         class_attribute :features, default: {}, instance_writer: false
         class_attribute :fields, default: {}, instance_writer: false
-        self.defined_filters = {}
-        self.features = {}
-        self.fields = {}
-
-        private
+        class_attribute :default_params, default: {}
       end
     end
 
@@ -27,6 +23,17 @@ module Queryko
         # appends new field
         self.fields[filt.field.to_sym] ||= Array.new
         self.fields[filt.field.to_sym].push(filt)
+      end
+
+      def default_param(sym, value)
+        self.default_params[sym] = value
+      end
+
+      def inherited(subclass)
+        subclass.defined_filters = self.defined_filters.clone || {}
+        subclass.features = self.features.clone || {}
+        subclass.fields = self.fields.clone || {}
+        subclass.default_params = self.default_params.clone || {}
       end
     end
   end

@@ -11,8 +11,8 @@ RSpec.describe Queryko::Base do
   end
 
   class ProductsQuery < ApplicationQuery
-    default :paginate, true
-    default :limit, 10
+    default_param :paginate, true
+    default_param :limit, 10
   end
 
   let(:products) do
@@ -34,8 +34,8 @@ RSpec.describe Queryko::Base do
     it { expect(ProductsQuery.model_class).to eq(Product) }
   end
 
-  describe 'defaults' do
-    it { expect(ProductsQuery.defaults).to eq({limit: 10, paginate: true}) }
+  describe 'default_params' do
+    it { expect(ProductsQuery.default_params).to eq({limit: 10, paginate: true}) }
   end
 
   describe '#call' do

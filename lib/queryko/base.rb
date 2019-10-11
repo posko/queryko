@@ -16,17 +16,10 @@ module Queryko
 
     attr_reader :params
 
-    class_attribute :defaults, default: {}
-
-    def self.default(sym, value)
-      self.defaults ||= {} # Ensure an empty hash. It keeps on raising an error
-      self.defaults[sym] = value
-    end
 
     def initialize(params = {}, rel=nil)
-      self.defaults ||= {} # Ensure an empty hash. It keeps on raising an error
       @relation = @original_relation = rel || self.class.model_class.all
-      @params = self.defaults.merge(params)
+      @params = self.default_params.merge(params)
     end
 
     def self.call(params = {}, rel = nil)

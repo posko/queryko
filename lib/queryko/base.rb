@@ -3,7 +3,7 @@ require "queryko/naming"
 require "queryko/able"
 require "queryko/filterer"
 require "queryko/filter_classes"
-require "byebug"
+# require "byebug"
 
 module Queryko
 

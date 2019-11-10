@@ -12,7 +12,7 @@ module Queryko
 
       def call(collection, token, query_object)
         @query_object = query_object
-        @table_name ||= query_object.class.table_name
+        @table_name = query_object.class.table_name
 
         perform(collection, token, query_object)
       end

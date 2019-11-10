@@ -3,6 +3,7 @@ require "bundler/setup"
 require 'active_record'
 require "queryko"
 require "fixtures/app/models/product"
+require "fixtures/app/models/account"
 require 'active_support/inflector/methods'
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

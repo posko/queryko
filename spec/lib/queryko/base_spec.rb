@@ -46,7 +46,7 @@ RSpec.describe Queryko::Base do
   }
 
   describe 'naming' do
-    let(:params) { { id: 'Sample1' } }
+    let(:params) { { name: 'Sample1' } }
 
     it { expect(AccountsQuery.new(params).call.count).to eq(1) }
     it { expect(ProductsQuery.new(params).call.count).to eq(1) }

@@ -1,11 +1,12 @@
 module Queryko
   module Filters
     class Base
-      attr_reader :table_name, :column_name, :feature, :as, :field, :query_object, :opts
+      attr_reader :table_name, :column_name, :feature, :as, :field,
+                  :query_object, :table_name_override
 
       def initialize(options = {}, feature)
-        @opts = options
         @feature = feature
+        @table_name_override = options[:table_name]
         @table_name = options[:table_name]
         @column_name = options.fetch(:column_name) { @feature.name }
         @as = options[:as]
@@ -13,7 +14,7 @@ module Queryko
 
       def call(collection, token, query_object)
         @query_object = query_object
-        @table_name = opts[:table_name] || query_object.class.table_name
+        @table_name = table_name_override || query_object.class.table_name
 
         perform(collection, token, query_object)
       end

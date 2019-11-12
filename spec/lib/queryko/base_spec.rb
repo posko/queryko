@@ -13,6 +13,21 @@ RSpec.describe Queryko::Base do
   class ProductsQuery < ApplicationQuery
     default_param :paginate, true
     default_param :limit, 10
+    feature :id, :search, as: :id, cond: :eq, table_name: 'custom_table_name'
+  end
+
+  class AccountsQuery < ApplicationQuery
+    default_param :paginate, true
+    default_param :limit, 10
+    feature :id, :search, as: :id, cond: :eq
+  end
+
+  let(:accounts) do
+    accounts =  []
+    3.times do |i|
+      accounts << Account.create(name: "Sample#{i}")
+    end
+    accounts
   end
 
   let(:products) do
@@ -25,8 +40,27 @@ RSpec.describe Queryko::Base do
   let(:params) { {} }
   let(:query) { ProductsQuery.new params, Product.all }
 
-  before { products }
+  before {
+    products
+    accounts
+  }
 
+  describe 'naming' do
+    let(:params) { { name: 'Sample1' } }
+
+    it { expect(AccountsQuery.new(params).call.count).to eq(1) }
+    it { expect(ProductsQuery.new(params).call.count).to eq(1) }
+  end
+
+  describe 'overriding table_name' do
+    let(:params) { { id: 1 } }
+
+    it { expect(AccountsQuery.new(params).call.count).to eq(1) }
+    it {
+      expect { ProductsQuery.new(params).call.count }
+        .to raise_error(ActiveRecord::StatementInvalid)
+    }
+  end
 
   context 'without passing resource' do
     it { expect(ProductsQuery.new(params).call.count).to eq(3) }

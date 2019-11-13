@@ -17,6 +17,7 @@ RSpec.configure do |config|
   end
   config.before(:each) do
     Product.delete_all
+    Account.delete_all
   end
 end
 

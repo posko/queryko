@@ -35,8 +35,6 @@ module Queryko
           self.defined_model_class = inferred_model(self)
         end
 
-        # require 'byebug'
-        # byebug
         return self.defined_model_class
       end
 

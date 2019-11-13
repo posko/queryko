@@ -1,25 +1,29 @@
 require 'spec_helper'
 
 RSpec.describe Queryko::Base do
-  class ApplicationQuery < Queryko::Base
-    feature :id, :min
-    feature :id, :max
-    feature :created_at, :min
-    feature :created_at, :max
-    feature :name, :search, as: :name
-    feature :paginate, :paginate, upper: 100, lower: 2
+  let(:application_query) do
+    Class.new(described_class) do
+      def self.name
+        "ApplicationQuery"
+      end
+      feature :id, :min
+      feature :id, :max
+      feature :created_at, :min
+      feature :created_at, :max
+      feature :name, :search, as: :name
+      feature :paginate, :paginate, upper: 100, lower: 2
+    end
   end
+  let(:products_query) do
+    Class.new(application_query) do
+      def self.name
+        "ProductsQuery"
+      end
 
-  class ProductsQuery < ApplicationQuery
-    default_param :paginate, true
-    default_param :limit, 10
-    feature :id, :search, as: :id, cond: :eq, table_name: 'custom_table_name'
-  end
-
-  class AccountsQuery < ApplicationQuery
-    default_param :paginate, true
-    default_param :limit, 10
-    feature :id, :search, as: :id, cond: :eq
+      default_param :paginate, true
+      default_param :limit, 10
+      feature :id, :search, as: :id, cond: :eq
+    end
   end
 
   let(:accounts) do
@@ -38,7 +42,7 @@ RSpec.describe Queryko::Base do
     products
   end
   let(:params) { {} }
-  let(:query) { ProductsQuery.new params, Product.all }
+  let(:query) { products_query.new params, Product.all }
 
   before {
     products
@@ -48,28 +52,11 @@ RSpec.describe Queryko::Base do
   describe 'naming' do
     let(:params) { { name: 'Sample1' } }
 
-    it { expect(AccountsQuery.new(params).call.count).to eq(1) }
-    it { expect(ProductsQuery.new(params).call.count).to eq(1) }
-  end
-
-  describe 'overriding table_name' do
-    let(:params) { { id: 1 } }
-
-    it { expect(AccountsQuery.new(params).call.count).to eq(1) }
-    it {
-      expect { ProductsQuery.new(params).call.count }
-        .to raise_error(ActiveRecord::StatementInvalid)
-    }
-  end
-
-  context 'without passing resource' do
-    it { expect(ProductsQuery.new(params).call.count).to eq(3) }
-    it { expect(ProductsQuery.table_name).to eq('products') }
-    it { expect(ProductsQuery.model_class).to eq(Product) }
+    it { expect(products_query.new(params).call.count).to eq(1) }
   end
 
   describe 'default_params' do
-    it { expect(ProductsQuery.default_params).to eq({limit: 10, paginate: true}) }
+    it { expect(products_query.default_params).to eq({limit: 10, paginate: true}) }
   end
 
   describe '#call' do
@@ -143,12 +130,12 @@ RSpec.describe Queryko::Base do
       product2
     end
     it "returns list of products" do
-      q = ProductsQuery.new({ id_min: product1.id }, Product.all)
+      q = products_query.new({ id_min: product1.id }, Product.all)
       expect(q.count).to eq(2)
     end
 
     it "returns list of products" do
-      q = ProductsQuery.new({ id_max: product1.id + 1 }, Product.all)
+      q = products_query.new({ id_max: product1.id + 1 }, Product.all)
       expect(q.count).to eq(6)
     end
   end

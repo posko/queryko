@@ -41,6 +41,7 @@ RSpec.describe Queryko::Base do
     end
     products
   end
+
   let(:params) { {} }
   let(:query) { products_query.new params, Product.all }
 

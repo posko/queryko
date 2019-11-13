@@ -46,6 +46,14 @@ RSpec.describe Queryko::Base do
     accounts
   end
 
+  let(:products) do
+    products =  []
+    3.times do |i|
+      products << Product.create(name: "Sample#{i}")
+    end
+    products
+  end
+
   let(:params) { {} }
 
   before {
